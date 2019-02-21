@@ -28,13 +28,14 @@ def main():
     
     if content_lenght:
         length = int(content_lenght)
+		download_length(response,out_file,length)
     else:
         dowload(response,out_file)
         
     response.close
     out_file.close
+    print("Finished")
     
-    
-if __name__="__main__":
+if __name__=="__main__":
     main()
     
