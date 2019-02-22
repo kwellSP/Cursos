@@ -1,0 +1,160 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateAereaTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('aerea', function (Blueprint $table) {
+            $table->timestamps();
+            $table->string('LI',100);
+            $table->date('DtEmissao')->nullable();
+            $table->string('Cia',100)->nullable();
+            $table->string('Nome_Cia',100)->nullable();
+            $table->string('TpBil',100)->nullable();
+            $table->string('Nome_Pax',100)->nullable();
+            $table->string('Nro_Bilhete',100)->nullable();
+            $table->string('TpPax',100)->nullable();
+            $table->date('DtEmbarque')->nullable();
+            $table->string('Origem',100)->nullable();
+            $table->string('Cidade_Origem',100)->nullable();
+            $table->string('Destino',100)->nullable();
+            $table->string('Cidade_Destino',100)->nullable();
+            $table->string('Contato',100)->nullable();
+            $table->string('Cod_CCusto',100)->nullable();
+            $table->string('Descricao_CCusto',100)->nullable();
+            $table->string('Cod_Cargo',100)->nullable();
+            $table->string('Nome_Cargo',100)->nullable();
+            $table->string('Emissor',100)->nullable();
+            $table->string('Nome_Emissor',100)->nullable();
+            $table->string('Produto',100)->nullable();
+            $table->string('Nome_Produto',100)->nullable();
+            $table->string('DocCliente',100)->nullable();
+            $table->string('Cliente',100)->nullable();
+            $table->string('TpCli',100)->nullable();
+            $table->string('GrupoCli',100)->nullable();
+            $table->string('CidadeCli',100)->nullable();
+            $table->string('MunicipioCli',100)->nullable();
+            $table->string('UF_Cli',100)->nullable();
+            $table->string('EstadoCli',100)->nullable();
+            $table->string('Representante',100)->nullable();
+            $table->string('Fornecedor',100)->nullable();
+            $table->string('Nome_Fornec',100)->nullable();
+            $table->string('Referencia',100)->nullable();
+            $table->string('Destino1',100)->nullable();
+            $table->string('NomeDestino1',100)->nullable();
+            $table->string('Filial',100)->nullable();
+            $table->string('NomeFilial',100)->nullable();
+            $table->decimal('TpFat',10,2)->nullable();
+            $table->decimal('TpPgto',10,2)->nullable();
+            $table->date('DtVencimento')->nullable();
+            $table->string('NroFatura',100)->nullable();
+            $table->decimal('Cambio',10,2)->nullable();
+            $table->decimal('Tarifa_USD',10,2)->nullable();
+            $table->decimal('Tarifa_RS',10,2)->nullable();
+            $table->decimal('TxEmbarque',10,2)->nullable();
+            $table->decimal('ComisRepas',10,2)->nullable();
+            $table->decimal('IncentRepas',10,2)->nullable();
+            $table->string('VlrDU',100)->nullable();
+            $table->decimal('OutrosAcresc',10,2)->nullable();
+            $table->decimal('VlrCartao',10,2)->nullable();
+            $table->string('Sinal',100)->nullable();
+            $table->decimal('Saldo',10,2)->nullable();
+            $table->decimal('ComisCia',10,2)->nullable();
+            $table->decimal('IncentCia',10,2)->nullable();
+            $table->decimal('Incent1',10,2)->nullable();
+            $table->decimal('Incent2',10,2)->nullable();
+            $table->decimal('incent3',10,2)->nullable();
+            $table->decimal('ComisGSA',10,2)->nullable();
+            $table->decimal('VlrPagar',10,2)->nullable();
+            $table->decimal('VlrLucro',10,2)->nullable();
+            $table->decimal('TarifaSugerida',10,2)->nullable();
+            $table->decimal('TarifaNormal',10,2)->nullable();
+            $table->string('CodMotivo',100)->nullable();
+            $table->string('Motivo',100)->nullable();
+            $table->string('RT/OW',100)->nullable();
+            $table->string('Rota',100)->nullable();
+            $table->string('UserINC',100)->nullable();
+            $table->date('DtINC')->nullable();
+            $table->string('UserALT',100)->nullable();
+            $table->date('DtALT')->nullable();
+            $table->decimal('Empresa',10,3)->nullable();
+            $table->date('DtVoo01')->nullable();
+            $table->date('DtVoo02')->nullable();
+            $table->date('DtVoo03')->nullable();
+            $table->date('DtVoo04')->nullable();
+            $table->date('DtVoo05')->nullable();
+            $table->date('DtVoo06')->nullable();
+            $table->date('DtVoo07')->nullable();
+            $table->date('DtVoo08')->nullable();
+            $table->date('DtVoo09')->nullable();
+            $table->date('DtVoo10')->nullable();
+            $table->string('NroCartao',100)->nullable();
+            $table->string('LinObsRes_1a',100)->nullable();
+            $table->date('DtEntrada')->nullable();
+            $table->string('TourCode',100)->nullable();
+            $table->decimal('TpOnline',10,2)->nullable();
+            $table->decimal('VlrOnline',10,2)->nullable();
+            $table->string('LocCia',100)->nullable();
+            $table->decimal('Voo',10,2)->nullable();
+            $table->string('LinObsRes_2a',100)->nullable();
+            $table->string('Email_CCusto',100)->nullable();
+            $table->decimal('FeeCliente',10,2)->nullable();
+            $table->string('CodCliente',100)->nullable();
+            $table->string('LinObsVal_1a',100)->nullable();
+            $table->string('LinObsVal_4a',100)->nullable();
+            $table->string('LinObsRes_3a',100)->nullable();
+            $table->string('LinObsRes_4a',100)->nullable();
+            $table->string('LinObsVal_2a',100)->nullable();
+            $table->string('CodAutoriz',100)->nullable();
+            $table->string('CondPgto',100)->nullable();
+            $table->string('Nome_ContPgto',100)->nullable();
+            $table->string('divisao',100)->nullable();
+            $table->decimal('Econ_Obtida',10,2)->nullable();
+            $table->decimal('Econ_Nao_Obtida',10,2)->nullable();
+            $table->decimal('Acordo_Obtido',10,2)->nullable();
+            $table->string('tipo',100)->nullable();
+            $table->string('Alerta_O1',100)->nullable();
+            $table->string('Alerta_O2',100)->nullable();
+            $table->string('Alerta_O3',100)->nullable();
+            $table->string('Alerta_O4',100)->nullable();
+            $table->string('Alerta_O5',100)->nullable();
+            $table->string('Alerta_O6',100)->nullable();
+            $table->string('Alerta_O7',100)->nullable();
+            $table->string('Alerta_Acordo',100)->nullable();
+            $table->string('Alerta_Eco_Obtida',100)->nullable();
+            $table->string('Alerta_Eco_Nao_Obtida',100)->nullable();
+            $table->string('Alerta_Cidade',100)->nullable();
+            $table->string('Alerta_Reason_Code_Vazio',100)->nullable();
+            $table->string('Alerta_Reason_Code_Reemissao',100)->nullable();
+            $table->string('Alerta_Reason_Code_Menor_Tarifa',100)->nullable();
+            $table->string('Alerta_Reason_Code_Preferencia',100)->nullable();
+            $table->string('Alerta_Bilhete',100)->nullable();
+            $table->string('Alerta_Data',100)->nullable();
+            $table->string('Alerta_tipo_de_Viagem',100)->nullable();
+            $table->string('Alerta_Cidade_Destino_ou_Origem_Vazia',100)->nullable();
+            $table->string('Alerta_Geral',100)->nullable();
+            $table->string('lider',100)->nullable();
+            $table->string('coordenador',100)->nullable();
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('aerea');
+    }
+}

@@ -1,0 +1,93 @@
+[
+  {
+    "CodigoDoFabricante": "620.312-700",
+    "EAN": [
+      "7892063612701",
+      "7892456909146"
+    ],
+    "DUN": "27895692390135",
+    "Marca": "Luk",
+    "Fabricante": "Shaeffler",
+    "Nome": "Kit de embreagem",
+    "Descricao": "Kit de embreagem Luk 620.312-700",
+    "NCM": "87089300",
+    "CEST": "0107500",
+    "CodigoDaMontadora": {
+      "Chevrolet": "93212846",
+      "Ford": "BE5E2D486-A"
+    },
+    "CodigosSimilares": {
+      "Valeo": "228224",
+      "ZF": "6291",
+      "Driveway": "BD-2448-X"
+    },
+    "CurvaABC": "B",
+    "Linha": "Leve",
+    "UnidadeDeMedida": "Kit",
+    "QuantidadeNaCaixa": 1,
+    "QuantidadeMinimaDeVenda": 2,
+    "AlturaDaCaixa": 1000,
+    "LarguraDaCaixa": 1100,
+    "ComprimentoDaCaixa": 1100,
+    "AlturaDaEmbalagem": 78,
+    "LarguraDaEmbalagem": 348,
+    "ComprimentoDaEmbalagem": 358,
+    "AlturaDoProduto": 53,
+    "LarguraDoProduto": 255,
+    "ComprimentoDoProduto": 255,
+    "PesoDaCaixa": "4,35",
+    "PesoDaEmbalagem": "4,35",
+    "PesoLiquidoDoProduto": "3,935",
+    "PesoBrutoDoProduto": "4,156",
+    "OutrasInformacoes": [
+      {
+        "Cambio": [
+          "Manual",
+          "Automático"
+        ],
+        "PIS": "0,65%"
+      }
+    ],
+    "CategoriaUniversalSmartPeca": {
+      "nivel1": "Autopeças",
+      "nivel2": "Embreagem",
+      "nivel3": "Kit de Embreagem"
+    },
+    "CategoriaFonte": {
+      "nivel1": "Propulsão",
+      "nivel2": "Transmissão",
+      "nivel3": "Embreagem",
+      "nivel4": "Kit Embreagem"
+    },
+    "CategoriaGS1": {
+      "nivel1": "Setor Automotivo",
+      "nivel2": "Acessorios Automotivos e Manutencao",
+      "nivel3": "Freios automotivos",
+      "nivel4": "Disco de freio"
+    },
+    "AplicacaoUniversalSmartPeca": {
+      "chave":"Mitsubishi Colt GLXi 1995",
+      "chave":"Mitsubishi Colt GLXi 1996",
+      "chave":"Mitsubishi Lancer GLX 1993",
+      "chave":"Mitsubishi Lancer GLX 1994",
+      "chave":"Mitsubishi Lancer GLX 1995"
+    },
+    "AplicacaoDaFonte": {
+      "chave":"Mitsubishi Colt 1.6 (Exceto Gti) (Imp.) 1995",
+      "chave":"Mitsubishi Colt 1.6 (Exceto Gti) (Imp.) 1996",
+      "chave":"Mitsubishi Lancer 1.6 - 16V (Exceto Gti) (Imp.) 1993",
+      "chave":"Mitsubishi Lancer 1.6 - 16V (Exceto Gti) (Imp.) 1994",
+      "chave":"Mitsubishi Lancer 1.6 - 16V (Exceto Gti) (Imp.) 1995"
+    },
+    "Status": "Ativo",
+    "Garantia": "3 meses",
+    "Sinonimo": "Repset",
+    "Preco": "R$ 315,50",
+    "CrossSell": [
+      "Disco de Embreagem",
+      "Plato de Embreagem"
+    ],
+    "CodigoUnico": "6203127001001",
+    "Imagem": "620312700.png (ou .jpg)"
+  }
+]

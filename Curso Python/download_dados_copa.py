@@ -20,7 +20,7 @@ def download(response,output):
         if not data:
             break
         output.write(data)
-        print("Dowload {bytes}".format(bytes=total_download))
+        print("Download {bytes}".format(bytes=total_download))
 def main():
     response = request.urlopen(sys.argv[1])
     out_file = io.FileIO("Saida.zip",mode="w")

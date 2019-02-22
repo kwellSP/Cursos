@@ -5,20 +5,20 @@ def extract_name(name):
     return name.split(".")[0]
 
 def read_lines(filename):
-    _file = open(os.path.join("data/meta-data",filename),"rt")
-	data = _file.read().split("\n")
+	_file = open(os.path.join('data/meta-data',filename),'rt')
+	data = _file.read().split('\n')
 	_file.close()
-	return data
+    return data
 	
 def read_metadata(filename):
     metadata = []
-	for column in read_lines(filename):
-	    if column:
-		    values = column.split("\t")
-			nome = values[0]
-			tipo = values[1]
-			desc = values[2]
-			metadata.append((nome,tipo,desc))
+for column in read_lines(filename):
+    if column:
+	    values = column.split("\t")
+		nome = values[0]
+		tipo = values[1]
+		desc = values[2]
+		metadata.append((nome,tipo,desc))
     return metadata
 	
 
