@@ -7,41 +7,55 @@ applicacao = pd.read_excel('SKF_2.xlsx', sheet_name='Aplicações')
 referencia = pd.read_excel('SKF_2.xlsx', sheet_name='Referencia')
 descricao_ean = pd.read_excel('SKF_2.xlsx', sheet_name='Descrição+EAN')
 ncm_peso = pd.read_excel('SKF_2.xlsx', sheet_name='NCM+Peso')
+equivalencia = pd.read_excel('SKF_2.xlsx', sheet_name='Equivalencias 2')
+
+
+#apaga as colunas não utilizadas
+applicacao = applicacao.drop(columns="Números Referência")
+
+
+#unifica as guias pelo código do produto
+unificados = pd.merge(applicacao, referencia, sort=False, on='Código do Produto', how='left')
+unificados = pd.merge(unificados, descricao_ean, sort=False, on='Código do Produto', how='left')
+unificados = pd.merge(unificados, ncm_peso, sort=False, on='Código do Produto', how='left')
+unificados = pd.merge(unificados, equivalencia, sort=False, on='Código do Produto', how='left')
+
+
+#padroniza os dados das colunas
+
+
+
+
 #dicionário que irá conter todos os dados
-lista = {'CodigoDoFabricante':[],'EAN':[],'DUN':[],'Marca':[],'Fabricante':[],
-         'Nome':[],'Descricao':[],'NCM':[],'CEST':[],'CodigoDaMontadora':[],
-         'CodigosSimilares':[],'CurvaABC':[],'Linha':[],'UnidadeDeMedida':[],
-         'QuantidadeNaCaixa':[],'QuantidadeMinimaDeVenda':[],'AlturaDaCaixa':[],
-         'LarguraDaCaixa':[],'ComprimentoDaCaixa':[],'AlturaDaEmbalagem':[],
-         'LarguraDaEmbalagem':[],'ComprimentoDaEmbalagem':[],'AlturaDoProduto':[],
-         'LarguraDoProduto':[],'ComprimentoDoProduto':[],'PesoDaCaixa':[],'PesoDaEmbalagem':[],
-         'PesoLiquidoDoProduto':[],'PesoBrutoDoProduto':[],'OutrasInformacoes':[],
-         'CategoriaUniversalSmartPeca':[],'CategoriaFonte':[],'CategoriaGS1':[],
-         'AplicacaoUniversalSmartPeca':[],'AplicacaoDaFonte':[],'Status':[],'Garantia':[],
-         'Sinonimo':[],'Preco':[],'CrossSell':[],
-         'CodigoUnico':[],'Imagem':[]}
+lista = {'CodigoDoFabricante': [], 'EAN': [], 'DUN': [], 'Marca': [], 'Fabricante': [],
+         'Nome': [], 'Descricao': [], 'NCM': [], 'CEST': [], 'CodigoDaMontadora': [],
+         'CodigosSimilares': [], 'CurvaABC': [], 'Linha': [], 'UnidadeDeMedida': [],
+         'QuantidadeNaCaixa': [], 'QuantidadeMinimaDeVenda': [], 'AlturaDaCaixa': [],
+         'LarguraDaCaixa': [], 'ComprimentoDaCaixa': [], 'AlturaDaEmbalagem': [],
+         'LarguraDaEmbalagem': [], 'ComprimentoDaEmbalagem': [], 'AlturaDoProduto': [],
+         'LarguraDoProduto': [], 'ComprimentoDoProduto': [], 'PesoDaCaixa': [], 'PesoDaEmbalagem': [],
+         'PesoLiquidoDoProduto': [], 'PesoBrutoDoProduto': [], 'OutrasInformacoes': [],
+         'CategoriaUniversalSmartPeca': [], 'CategoriaFonte': [], 'CategoriaGS1': [],
+         'AplicacaoUniversalSmartPeca': [], 'AplicacaoDaFonte': [], 'Status': [], 'Garantia': [],
+         'Sinonimo': [], 'Preco': [], 'CrossSell': [],
+         'CodigoUnico': [], 'Imagem': []}
 
-codigoDoFabricante = []
+dfLista = pd.DataFrame(data=lista)
 
+print(len(unificados['Código do Produto'].unique()))
 
-#pega os dados de código do fabricante de cada sheet
-for i in applicacao.index:
-    codigoDoFabricante.append(applicacao['Código do Produto'][i])
+'''
+for i in range(5):
+    dfLista = dfLista.append({'CodigoDoFabricante': i}, ignore_index=True)
+print(dfLista['CodigoDoFabricante'][4])
+exit(-1)
 
-for i in ncm_peso.index:
-    codigoDoFabricante.append(ncm_peso['Código do Produto'][i])
+print(unificados['Código do Produto'][0])
+exit(-1)
 
-for i in referencia.index:
-    codigoDoFabricante.append(referencia['Código do Produto'][i])
+for pos, itens in enumerate(unificados):
+    print(unificados[itens])
+'''
 
-for i in descricao_ean.index:
-    codigoDoFabricante.append(descricao_ean['Código do Produto'][i])
+#dfLista.append([{CodigoDoFabricante}, ignore_index=True)
 
-
-#remove os duplicados
-codigoDoFabricante =list(dict.fromkeys(codigoDoFabricante))
-
-#inseri dados no indice Codigo do Fabricante sem as duplicidades
-lista['CodigoDoFabricante'] = codigoDoFabricante
-
-print(lista.values())
