@@ -1,21 +1,18 @@
 import pandas as pd
-import numpy as np
 
 #dicionário que irá conter todos os dados
-lista = {'CodigoDoFabricante': [], 'EAN': [], 'DUN': [], 'Marca': [], 'Fabricante': [],
-         'Nome': [], 'Descricao': [], 'NCM': [], 'CEST': [], 'CodigoDaMontadora': [],
-         'CodigosSimilares': [], 'CurvaABC': [], 'Linha': [], 'UnidadeDeMedida': [],
-         'QuantidadeNaCaixa': [], 'QuantidadeMinimaDeVenda': [], 'AlturaDaCaixa': [],
-         'LarguraDaCaixa': [], 'ComprimentoDaCaixa': [], 'AlturaDaEmbalagem': [],
-         'LarguraDaEmbalagem': [], 'ComprimentoDaEmbalagem': [], 'AlturaDoProduto': [],
-         'LarguraDoProduto': [], 'ComprimentoDoProduto': [], 'PesoDaCaixa': [], 'PesoDaEmbalagem': [],
-         'PesoLiquidoDoProduto': [], 'PesoBrutoDoProduto': [], 'OutrasInformacoes': [],
-         'CategoriaUniversalSmartPeca': [], 'CategoriaFonte': [], 'CategoriaGS1': [],
-         'AplicacaoUniversalSmartPeca': [], 'AplicacaoDaFonte': [], 'Status': [], 'Garantia': [],
-         'Sinonimo': [], 'Preco': [], 'CrossSell': [],
-         'CodigoUnico': [], 'Imagem': []}
-
-dfLista = pd.DataFrame(data=lista)
+dfLista = pd.DataFrame(columns=['CodigoDoFabricante', 'EAN', 'DUN', 'Marca', 'Fabricante',
+                                'Nome', 'Descricao', 'NCM', 'CEST', 'CodigoDaMontadora',
+                                'CodigosSimilares', 'CurvaABC', 'Linha', 'UnidadeDeMedida',
+                                'QuantidadeNaCaixa', 'QuantidadeMinimaDeVenda', 'AlturaDaCaixa',
+                                'LarguraDaCaixa', 'ComprimentoDaCaixa', 'AlturaDaEmbalagem',
+                                'LarguraDaEmbalagem', 'ComprimentoDaEmbalagem', 'AlturaDoProduto',
+                                'LarguraDoProduto', 'ComprimentoDoProduto', 'PesoDaCaixa', 'PesoDaEmbalagem',
+                                'PesoLiquidoDoProduto', 'PesoBrutoDoProduto', 'OutrasInformacoes',
+                                'CategoriaUniversalSmartPeca', 'CategoriaFonte', 'CategoriaGS1',
+                                'AplicacaoUniversalSmartPeca', 'AplicacaoDaFonte', 'Status', 'Garantia',
+                                'Sinonimo', 'Preco', 'CrossSell',
+                                'CodigoUnico', 'Imagem'])
 
 
 #abre pega os dados das planilhas
@@ -42,25 +39,43 @@ unificados = pd.merge(unificados, equivalencia, sort=False, on='Código do Produ
 #inseri os códigos de produto únicos (regra 01)
 dfLista['CodigoDoFabricante'] = unificados['Código do Produto'].unique()
 
-#formata regras 3
-#dfLista['DUN'].fillna('')
-
-#formata regras 4
-#dfLista['Marca'].fillna('SKF')
-
-#formata regras 5
-#dfLista['Fabricante'].replace(np.nan, 'SKF')
-
-#formata regras 9
-#dfLista['CEST'].replace(np.nan, '')
-
-#formata regras 12
-#dfLista['CurvaABC'].fillna('')
 
 # padroniza as demais regras
-
 for pos, cod in enumerate(dfLista['CodigoDoFabricante']):
-    print('Posição = ', pos, ' e item = ', cod)
+    #for pos2, cod2 in enumerate(descricao_ean):
+    #print("Codigo ", cod, "Descrição", descricao_ean.loc[descricao_ean['Código do Produto'] == cod]['Descrição do Produto'].unique())
+    #dfLista.at[pos, 'Nome'] = descricao_ean.loc[descricao_ean['Código do Produto'] == cod]['Descrição do Produto'].unique()
+    dfLista.at[pos, 'Marca'] = 'SKF'
+    dfLista.at[pos, 'Fabricante'] = 'SKF'
+    dfLista.at[pos, 'DUN'] = ''
+    dfLista.at[pos, 'CEST'] = ''
+    dfLista.at[pos, 'CurvaABC'] = ''
+    dfLista.at[pos, 'Descricao'] = '{} {} {}'.format(dfLista['Nome'][pos], 'SKF', cod)
+    dfLista.at[pos, 'UnidadeDeMedida'] = ''
+    dfLista.at[pos, 'QuantidadeNaCaixa'] = ''
+    dfLista.at[pos, 'QuantidadeMinimaDeVenda'] = ''
+    dfLista.at[pos, 'AlturaDaCaixa'] = ''
+    dfLista.at[pos, 'LarguraDaCaixa'] = ''
+    dfLista.at[pos, 'ComprimentoDaCaixa'] = ''
+    dfLista.at[pos, 'AlturaDaEmbalagem'] = ''
+    dfLista.at[pos, 'LarguraDaEmbalagem'] = ''
+    dfLista.at[pos, 'ComprimentoDaEmbalagem'] = ''
+    dfLista.at[pos, 'PesoDaCaixa'] = ''
+    dfLista.at[pos, 'PesoDaEmbalagem'] = ''
+    dfLista.at[pos, 'PesoLiquidoDoProduto'] = ''
+    dfLista.at[pos, 'CategoriaUniversalSmartPeca'] = ''
+    dfLista.at[pos, 'CategoriaGS1'] = ''
+    dfLista.at[pos, 'AplicacaoUniversalSmartPeca'] = ''
+    dfLista.at[pos, 'Status'] = ''
+    dfLista.at[pos, 'Garantia'] = ''
+    dfLista.at[pos, 'Sinonimo'] = ''
+    dfLista.at[pos, 'Preco'] = ''
+    dfLista.at[pos, 'CrossSell'] = ''
+    dfLista.at[pos, 'CodigoUnico'] = cod.replace('-', '').replace('/', '').replace(' ', '').replace('+', '')
+    dfLista.at[pos, 'CodigoUnico'] = dfLista['CodigoUnico'][pos].replace('*', ''), '0001'
+    dfLista.at[pos, 'Imagem'] = ''
+    #print('Posição = ', pos, ' e item = ', cod)
+print(dfLista['Descricao'])
 exit(-1)
 
 
