@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pandas as pd
 
 def trataAplicacoes(cod:object, pos:int):
@@ -99,12 +100,13 @@ equivalencia = pd.read_excel('SKF_2.xlsx', sheet_name='Equivalencias 2', dtype={
 ncm_peso = ncm_peso.replace('-', )
 
 
-applicacao['Tipo de Aplicação'] = applicacao['Tipo de Aplicação'].replace('Linha ', '')
+applicacao['Tipo de Aplicação'] = applicacao['Tipo de Aplicação'].replace('Linha Pesada', 'Pesada').\
+    replace('Linha Leve', 'Leve').replace('Linha Agrícola', 'Agrícola')
 applicacao['Posição'] = applicacao['Posição'].replace('diant.', 'dianteiro').replace('tras.', 'traseiro').\
     replace('inf.', 'inferior').replace('sup.', 'superior').replace('ext.', 'externo').replace('int.', 'interno').\
     replace('interm.', 'intermediário').replace('veloc.', 'velocidade').\
     replace('dir.', 'direita').replace('esq.', 'esquerda')
-applicacao['Grupo'] = applicacao['Grupo'].replace('Linha ', '')
+
 
 #capitaliza os dados dos campos necessários
 referencia['Descrição do Fabricante do Veículo'] = referencia['Descrição do Fabricante do Veículo'].str.capitalize()
@@ -170,8 +172,8 @@ for pos, cod in enumerate(dfLista['CodigoDoFabricante']):
     dfLista.at[pos, 'LarguraDoProduto'] = ncm_peso.loc[ncm_peso['Código do Produto'] == cod]['Largura'].unique()
     dfLista.at[pos, 'ComprimentoDoProduto'] = ncm_peso.loc[ncm_peso['Código do Produto'] == cod]['Comprimento'].unique()
     dfLista.at[pos, 'PesoBrutoDoProduto'] = ncm_peso.loc[ncm_peso['Código do Produto'] == cod]['Peso bruto'].unique()
-    dfLista.at[pos, 'Linha'] = applicacao.loc[applicacao['Código do Produto'] == cod]['Tipo de Aplicação'].unique()
-    dfLista.at[pos, 'CategoriaFonte'] = applicacao.loc[applicacao['Código do Produto'] == cod]['Grupo'].unique()
+    dfLista.at[pos, 'Linha'] = list(applicacao.loc[applicacao['Código do Produto'] == cod]['Tipo de Aplicação'].unique())
+    dfLista.at[pos, 'CategoriaFonte'] = list(applicacao.loc[applicacao['Código do Produto'] == cod]['Grupo'].unique())
 
 dfLista = dfLista.replace("'", '')
 dfLista = dfLista.replace('[', '')
@@ -179,6 +181,8 @@ dfLista = dfLista.replace(']', '')
 dfLista['CodigosSimilares'] = dfLista['CodigosSimilares'].str.capitalize()
 
 dfLista.to_excel("resultado.xlsx")
+dfLista.loc[dfLista['CodigoDoFabricante'] == '6004'].to_json("resultado.json", force_ascii=False,
+                                                             orient='records', lines=True)
 
 
 
