@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 
-def trataAplicacoes(cod:object, pos:int):
-    dados = applicacao.loc[applicacao['Código do Produto'] == cod]
+def trataAplicacaoResumida(cod:object, pos:int):
+    dados = ncm_peso.loc[(ncm_peso['Código do Produto'] == cod) & (ncm_peso['Montadora'] != '-')]
     if dados['Código do Produto'].count() == 1:
-        dfLista.at[pos, 'Linha'] = '{}'.format(dados.at[dados.index.item(), 'Tipo de Aplicação'])
+        consolidado = []
+        consolidado.append('{} {}'.format(dados.at[dados.index.item(), 'Montadora'],
+                                          dados.at[dados.index.item(), 'Aplicação Resumida']))
+        return consolidado
     elif dados['Código do Produto'].count() == 0:
-        dfLista.at[pos, 'Linha'] = ''
+        return ''
     else:
         consolidado = []
-        dfLista.at[pos, 'Linha'] = '{}'.format(dados.at[0, 'Tipo de Aplicação'])
         for index, row in enumerate(dados.index):
-            consolidado.append('{}'.format(applicacao.at[row, 'Tipo de Aplicação']))
-        #dfLista.at[pos, 'Linha'] = consolidado
+            consolidado.append('{} {}'.format(dados.at[row, 'Montadora'], dados.at[row, 'Aplicação Resumida']))
+        return consolidado
+
 
 
 def trataReferencias(cod:object, pos:int):
@@ -72,7 +75,7 @@ dfLista = pd.DataFrame(columns=['CodigoDoFabricante', 'EAN', 'DUN', 'Marca', 'Fa
                                 'CategoriaUniversalSmartPeca', 'CategoriaFonte', 'CategoriaGS1',
                                 'AplicacaoUniversalSmartPeca', 'AplicacaoDaFonte', 'Status', 'Garantia',
                                 'Sinonimo', 'Preco', 'CrossSell',
-                                'CodigoUnico', 'Imagem'])
+                                'CodigoUnico', 'Imagem', 'posicao', 'aplicacaoResumida'])
 
 
 #abre pega os dados das planilhas
@@ -133,7 +136,13 @@ dfLista['CodigoDoFabricante'] = unificados['Código do Produto'].unique()
 
 # padroniza as demais regras
 for pos, cod in enumerate(dfLista['CodigoDoFabricante']):
-    #trataAplicacoes(cod, pos)
+    print('cod = {} pos ={}'.format(cod, pos))
+    #trataAplicacoesFonte(cod, pos)
+
+
+    dfLista.at[pos, 'posicao'] = applicacao['Posição'].loc[applicacao['Código do Produto'] == cod].unique()
+    dfLista.at[pos, 'aplicacaoResumida'] = trataAplicacaoResumida(cod, pos)
+    dfLista.at[pos, 'OutrasInformacoes'] = '{} Posicao:[{}], AplicacaoResumida:[{}] {}'.format("{", dfLista.at[pos, 'posicao'], dfLista.at[pos, 'aplicacaoResumida'], "}")
     trataEquivalencias(cod, pos)
     trataReferencias(cod, pos)
     dfLista.at[pos, 'Nome'] = descricao_ean.loc[descricao_ean['Código do Produto'] == cod]['Descrição do Produto'].unique()
@@ -183,6 +192,4 @@ dfLista['CodigosSimilares'] = dfLista['CodigosSimilares'].str.capitalize()
 dfLista.to_excel("resultado.xlsx")
 dfLista.loc[dfLista['CodigoDoFabricante'] == '6004'].to_json("resultado.json", force_ascii=False,
                                                              orient='records', lines=True)
-
-
 
