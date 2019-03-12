@@ -1,6 +1,60 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 
+
+def ajustaAno(ano: object):
+    if len(ano) == 4:
+        return int(ano)
+    elif int(ano) < 50 and ano != '0':
+        return int('{}{}'.format('20', ano))
+    elif int(ano) >= 50 and ano != '0':
+        return int('{}{}'.format('19', ano))
+    else:
+        return 0
+
+
+def trataAno(ano: object, cod: object):
+    anos = list(filter(None, ano.split('.')))
+    datas = {'anoInicial': '0', 'anoFinal': '0'}
+    if len(anos) >= 1 and anos[0].count('/') == 0 and (len(anos[0]) == 4 or len(anos[0]) == 2):
+        datas['anoInicial'] = anos[0]
+    elif len(anos) >= 1 and anos[0].count('/') == 1 and len(anos[0]) == 5:
+        datas['anoInicial'] = anos[0][3:]
+
+    if len(anos) == 2 and anos[1].count('/') == 0 and (len(anos[1]) == 4 or len(anos[1]) == 2):
+        datas['anoFinal'] = anos[1]
+    elif len(anos) == 2 and anos[1].count('/') == 1 and len(anos[1]) == 5:
+        datas['anoFinal'] = anos[1][3:]
+
+    print('entrada = {} anos = {} cod ={} '.format(anos, datas, cod))
+    print('inicio = {} fim = {}'.format(ajustaAno(datas['anoInicial']), ajustaAno(datas['anoFinal'])))
+
+
+def trataAplicacaoFonte(cod:object, pos:int):
+    dados = applicacao.loc[applicacao['Código do Produto'] == cod]
+    #dados.drop_duplicates(keep=False, inplace=True)
+    dados.fillna('', inplace=True)
+    dados['Veículo'] = dados['Veículo'].str.replace(' e ', ',')
+    dados['Veículo'] = dados['Veículo'].str.replace('/', ',')
+    dados['Ano'] = dados['Ano'].str.replace(' ', '.')
+    dados['Ano'] = dados['Ano'].str.replace('-', '/')
+    dados['Ano'] = dados['Ano'].str.replace('?', '.')
+    dados['Complemento da Aplicação'].str.replace('"', '.')
+    if dados['Código do Produto'].count() == 1:
+        #consolidado = []
+        #consolidado.append('{} {}'.format(dados.at[dados.index.item(), 'Montadora'],
+        #                                  dados.at[dados.index.item(), 'Aplicação Resumida']))
+        #return consolidado
+        trataAno(dados.at[dados.index.item(), 'Ano'], cod)
+    elif dados['Código do Produto'].count() == 0:
+        trataAno('', cod)
+    else:
+        #consolidado = []
+        for index, row in enumerate(dados.index):
+            #consolidado.append('{} {}'.format(dados.at[row, 'Montadora'], dados.at[row, 'Aplicação Resumida']))
+            trataAno(dados.at[row, 'Ano'], cod)
+
+
 def trataAplicacaoResumida(cod:object, pos:int):
     dados = ncm_peso.loc[(ncm_peso['Código do Produto'] == cod) & (ncm_peso['Montadora'] != '-')]
     if dados['Código do Produto'].count() == 1:
@@ -75,7 +129,7 @@ dfLista = pd.DataFrame(columns=['CodigoDoFabricante', 'EAN', 'DUN', 'Marca', 'Fa
                                 'CategoriaUniversalSmartPeca', 'CategoriaFonte', 'CategoriaGS1',
                                 'AplicacaoUniversalSmartPeca', 'AplicacaoDaFonte', 'Status', 'Garantia',
                                 'Sinonimo', 'Preco', 'CrossSell',
-                                'CodigoUnico', 'Imagem', 'posicao', 'aplicacaoResumida'])
+                                'CodigoUnico', 'Imagem'])
 
 
 #abre pega os dados das planilhas
@@ -102,20 +156,22 @@ equivalencia = pd.read_excel('SKF_2.xlsx', sheet_name='Equivalencias 2', dtype={
 #remove caracters "-"
 ncm_peso = ncm_peso.replace('-', )
 
+applicacao['Tipo de Aplicação'] = applicacao['Tipo de Aplicação'].str.replace('Linha ', '')
 
-applicacao['Tipo de Aplicação'] = applicacao['Tipo de Aplicação'].replace('Linha Pesada', 'Pesada').\
-    replace('Linha Leve', 'Leve').replace('Linha Agrícola', 'Agrícola')
-applicacao['Posição'] = applicacao['Posição'].replace('diant.', 'dianteiro').replace('tras.', 'traseiro').\
-    replace('inf.', 'inferior').replace('sup.', 'superior').replace('ext.', 'externo').replace('int.', 'interno').\
-    replace('interm.', 'intermediário').replace('veloc.', 'velocidade').\
-    replace('dir.', 'direita').replace('esq.', 'esquerda')
-
+applicacao['Posição'] = applicacao['Posição'].str.replace('diant.', 'dianteiro')
+applicacao['Posição'] = applicacao['Posição'].str.replace('tras.', 'traseiro')
+applicacao['Posição'] = applicacao['Posição'].str.replace('inf.', 'inferior')
+applicacao['Posição'] = applicacao['Posição'].str.replace('sup.', 'superior')
+applicacao['Posição'] = applicacao['Posição'].str.replace('ext.', 'exterior')
+applicacao['Posição'] = applicacao['Posição'].str.replace('int.', 'interior')
+applicacao['Posição'] = applicacao['Posição'].str.replace('interm.', 'intermediário')
+applicacao['Posição'] = applicacao['Posição'].str.replace('veloc.', 'velocidade')
+applicacao['Posição'] = applicacao['Posição'].str.replace('dir.', 'direita')
+applicacao['Posição'] = applicacao['Posição'].str.replace('esq.', 'esquerda')
 
 #capitaliza os dados dos campos necessários
 referencia['Descrição do Fabricante do Veículo'] = referencia['Descrição do Fabricante do Veículo'].str.capitalize()
 applicacao['Grupo'] = applicacao['Grupo'].str.capitalize()
-
-
 
 #apaga as colunas não utilizadas
 applicacao = applicacao.drop(columns="Números Referência")
@@ -136,13 +192,12 @@ dfLista['CodigoDoFabricante'] = unificados['Código do Produto'].unique()
 
 # padroniza as demais regras
 for pos, cod in enumerate(dfLista['CodigoDoFabricante']):
-    print('cod = {} pos ={}'.format(cod, pos))
-    #trataAplicacoesFonte(cod, pos)
-
-
-    dfLista.at[pos, 'posicao'] = applicacao['Posição'].loc[applicacao['Código do Produto'] == cod].unique()
-    dfLista.at[pos, 'aplicacaoResumida'] = trataAplicacaoResumida(cod, pos)
-    dfLista.at[pos, 'OutrasInformacoes'] = '{} Posicao:[{}], AplicacaoResumida:[{}] {}'.format("{", dfLista.at[pos, 'posicao'], dfLista.at[pos, 'aplicacaoResumida'], "}")
+    trataAplicacaoFonte(cod, pos)
+'''    
+    dfLista.at[pos, 'OutrasInformacoes'] = [
+        {"posicao": applicacao['Posição'].loc[applicacao['Código do Produto'] == cod].unique()},
+        {"aplicacaoResumida": trataAplicacaoResumida(cod, pos)}
+    ]
     trataEquivalencias(cod, pos)
     trataReferencias(cod, pos)
     dfLista.at[pos, 'Nome'] = descricao_ean.loc[descricao_ean['Código do Produto'] == cod]['Descrição do Produto'].unique()
@@ -188,8 +243,10 @@ dfLista = dfLista.replace("'", '')
 dfLista = dfLista.replace('[', '')
 dfLista = dfLista.replace(']', '')
 dfLista['CodigosSimilares'] = dfLista['CodigosSimilares'].str.capitalize()
+'''
 
+dfLista.fillna('', inplace=True)
 dfLista.to_excel("resultado.xlsx")
-dfLista.loc[dfLista['CodigoDoFabricante'] == '6004'].to_json("resultado.json", force_ascii=False,
+dfLista.loc[dfLista['CodigoDoFabricante'] == '6001'].to_json("resultado.json", force_ascii=False,
                                                              orient='records', lines=True)
 
